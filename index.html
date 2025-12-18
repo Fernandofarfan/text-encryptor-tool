@@ -1,55 +1,56 @@
 <!DOCTYPE html>
 <html lang="es">
-    
-    <head>
-        <meta charset="UTF-8">
-        <title>Codificador de Mensaje</title>
-        <link rel="icon" href="imagenes/Logo.png" type="image/x-icon">
-        <link rel="stylesheet" href="reset.css">
-        <link rel="stylesheet" href="style.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&display=swap" rel="stylesheet">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encriptador de Texto - Proyecto Alura</title>
+    <meta name="description" content="Una herramienta profesional para encriptar y desencriptar texto, desarrollada por Fernando Farfán.">
+    <link rel="icon" href="imagenes/Logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <img src="imagenes/Logo.png" alt="Logo de Alura" class="logo">
+    </header>
 
-    <body>
-        <main>
-            <div id="bloque1">
-                <img src="imagenes/Logo.png" class="logo">
-
+    <main class="contenedor-principal">
+        <section class="seccion-input">
+            <textarea id="cuadro-codificador" class="input-texto" placeholder="Ingrese el texto aquí..."></textarea>
+            <div class="indicador-validacion">
+                <img src="imagenes/exclamation-circle-fill.svg" alt="Icono de advertencia" class="icono-alerta">
+                <p>Solo letras minúsculas y sin acentos</p>
             </div>
-
-            <div id="bloque2">
-                <img src="imagenes/Muñeco.png" class="muñeco">
-                
-                <section class="seccion1">
-                    <p class="p1-bloque2">Ningún mensaje fue encontrado</p>
-                    <p class="p2-bloque2">Ingresa el texto que desees encriptar o desencriptar</p>
-                </section>
-
-                <section class="seccion2">
-                    <textarea name="cuadroDeSalida" id="mensaje" cols="30" rows="10" readonly></textarea>
-                    <button class="copiar" type="button" onclick="copyText()">copiar</button>
-                </section>
+            <div class="botones-container">
+                <button type="button" class="btn-primario" id="btn-codificar">Encriptar</button>
+                <button type="button" class="btn-secundario" id="btn-descodificar">Desencriptar</button>
             </div>
+        </section>
 
-            <div id="bloque3">
-                <textarea name="textarea" id="cuadro-codificador" cols="42" rows="10" placeholder="Ingrese el texto aqui.." ></textarea>
+        <section class="seccion-output" id="seccion-resultado">
+            <div id="sin-resultado" class="output-placeholder">
+                <img src="imagenes/Muñeco.png" alt="Muñeco buscando mensaje" class="imagen-placeholder">
+                <div class="mensaje-placeholder">
+                    <h2>Ningún mensaje fue encontrado</h2>
+                    <p>Ingresa el texto que desees encriptar o desencriptar</p>
+                </div>
             </div>
+            <div id="con-resultado" class="output-content hidden">
+                <textarea id="mensaje" class="output-texto" readonly></textarea>
+                <button type="button" class="btn-secundario btn-copiar" id="btn-copiar">Copiar</button>
+            </div>
+        </section>
+    </main>
 
-            <div id="bloque4">
-                <img src="imagenes/exclamation-circle-fill.svg" alt="Exclamation Circle Fill" class="imgExclamacion">
-                <p class="p1-bloque4">Solo letras minúsculas y sin acentos</p>
-            </div>
+    <footer class="footer">
+        <p>Desarrollado con ❤️ por <span class="nombre-autor">Guillermo Fernando Farfán Romero</span></p>
+    </footer>
 
-            <div id="bloque5">    
-                <button class="botonCodificador" type="button"><p class="p1-bloque5">Codificar</p></button>
-                <button class="botonDescodificador" type="button"><p class="p2-bloque5">Descodificar</p></button>
-            </div>
-            <script src="logica.js"></script>
-        </main>
-        <footer>
-            <p class="pieDePagina">Creado Por Guillermo Fernando Farfan Romero</p>
-        </footer>        
-    </body>
+    <div id="toast" class="toast hidden">Texto copiado al portapapeles</div>
+
+    <script src="logica.js"></script>
+</body>
 </html>

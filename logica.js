@@ -1,108 +1,103 @@
-function ocultarSegundaPantalla() {
-    var cuadrotextarea = document.getElementById("cuadro-codificador");
-    var copiar = document.querySelector(".copiar");
-    var mensaje = document.getElementById("mensaje");
+// Selección de elementos del DOM
+const inputTexto = document.getElementById("cuadro-codificador");
+const btnCodificar = document.getElementById("btn-codificar");
+const btnDescodificar = document.getElementById("btn-descodificar");
+const btnCopiar = document.getElementById("btn-copiar");
+const outputTexto = document.getElementById("mensaje");
+const seccionSinResultado = document.getElementById("sin-resultado");
+const seccionConResultado = document.getElementById("con-resultado");
+const toast = document.getElementById("toast");
 
-    if(cuadrotextarea.value.trim()== ""){
-        copiar.style.visibility = "hidden";
-        mensaje.style.visibility = "hidden";
+// Llaves de encriptación
+const llaves = {
+    "e": "enter",
+    "i": "imes",
+    "a": "ai",
+    "o": "ober",
+    "u": "ufat"
+};
+
+/**
+ * Función principal para encriptar el texto
+ * @param {string} texto 
+ * @returns {string} texto encriptado
+ */
+function encriptar(texto) {
+    let textoEncriptado = texto.toLowerCase();
+    
+    // Iteramos sobre las llaves para reemplazar
+    for (let llave in llaves) {
+        textoEncriptado = textoEncriptado.replaceAll(llave, llaves[llave]);
+    }
+    
+    return textoEncriptado;
+}
+
+/**
+ * Función principal para desencriptar el texto
+ * @param {string} texto 
+ * @returns {string} texto desencriptado
+ */
+function desencriptar(texto) {
+    let textoDesencriptado = texto.toLowerCase();
+    
+    // Iteramos sobre las llaves para revertir el proceso
+    for (let llave in llaves) {
+        textoDesencriptado = textoDesencriptado.replaceAll(llaves[llave], llave);
+    }
+    
+    return textoDesencriptado;
+}
+
+/**
+ * Actualiza la interfaz gráfica según si hay texto o no
+ * @param {string} texto 
+ */
+function actualizarInterfaz(texto) {
+    if (texto.trim() === "") {
+        seccionSinResultado.classList.remove("hidden");
+        seccionConResultado.classList.add("hidden");
     } else {
-        copiar.style.visibility = "visible";
-        mensaje.style.visibility = "visible";
+        seccionSinResultado.classList.add("hidden");
+        seccionConResultado.classList.remove("hidden");
+        outputTexto.value = texto;
     }
 }
-function ocultarElementos() {
-    var cuadroCodificador = document.getElementById("cuadro-codificador");
-    var imagen = document.querySelector(".muñeco");
-    var parrafo1 = document.querySelector(".p1-bloque2");
-    var parrafo2 = document.querySelector(".p2-bloque2");
-    if (cuadroCodificador.value.trim() == "") {
-        imagen.style.visibility = "visible";
-        parrafo1.style.visibility = "visible";
-        parrafo2.style.visibility = "visible";
-    } else {
-        imagen.style.visibility = "hidden";
-        parrafo1.style.visibility = "hidden";
-        parrafo2.style.visibility = "hidden";
-    }
+
+/**
+ * Muestra una notificación temporal al usuario
+ */
+function mostrarToast() {
+    toast.classList.remove("hidden");
+    setTimeout(() => {
+        toast.classList.add("hidden");
+    }, 3000);
 }
 
-function copyText() {
-    var mensajeTextarea = document.getElementById("mensaje");
-    mensajeTextarea.select();
-    mensajeTextarea.setSelectionRange(0, mensajeTextarea.value.length);
-  
-    navigator.clipboard.writeText(mensajeTextarea.value)
-      .then(function() {})
-    mensajeTextarea.blur();
-  }
-
-document.querySelector(".copiar").style.visibility = "hidden";
-document.getElementById("mensaje").style.visibility = "hidden";
-var botonCodificador = document.querySelector(".botonCodificador");
-var botonDescodificador = document.querySelector(".botonDescodificador");
-var botonCopiar = document.querySelector(".copiar");
-
-botonCodificador.addEventListener("click", function() {
-    
-    var cuadroCodificador = document.getElementById("cuadro-codificador");
-    var oracion = cuadroCodificador.value;
-    var letras = oracion.split(""); 
-   
-    for (let cambio = 0; cambio < letras.length; cambio++) {
-        if (letras[cambio] == "a"){
-            letras[cambio] = "ai";
-        } 
-        else if (letras[cambio] == "e") {
-            letras[cambio] = "enter";
-        }
-        else if (letras[cambio] == "i") {
-            letras[cambio] = "imes";
-        }
-        else if (letras[cambio] == "o") {
-            letras[cambio] = "ober";
-        }
-        else if (letras[cambio] == "u") {
-            letras[cambio] = "ufat";
-        }
+// Event Listeners
+btnCodificar.addEventListener("click", () => {
+    const texto = inputTexto.value;
+    if (texto.trim() !== "") {
+        const resultado = encriptar(texto);
+        actualizarInterfaz(resultado);
+        inputTexto.value = "";
     }
-    ocultarSegundaPantalla();
-    ocultarElementos();
-    cuadroCodificador.value = "";
-    var texto = letras.join("");
-    document.getElementById("mensaje").textContent = texto;
-    
 });
 
-botonDescodificador.addEventListener("click", function() {
-    
-    var cuadroCodificador = document.getElementById("cuadro-codificador");
-    var oracion = cuadroCodificador.value;
-    var letras = oracion; 
-
-    for (let cambio = 0; cambio < letras.length; cambio++) {
-        if (letras[cambio] == "a" && letras.substring(cambio, cambio + 2) === "ai") {
-            letras = letras.replace("ai", "a");
-        } 
-        else if (letras[cambio] == "e" && letras.substring(cambio, cambio + 5) === "enter") {
-            letras = letras.replace("enter", "e");
-        }
-        else if (letras[cambio] == "i" && letras.substring(cambio, cambio + 4) === "imes") {
-            letras = letras.replace("imes", "i");
-        }
-        else if (letras[cambio] == "o" && letras.substring(cambio, cambio + 4) === "ober") {
-            letras = letras.replace("ober", "o");
-        }
-        else if (letras[cambio] == "u" && letras.substring(cambio, cambio + 4) === "ufat") {
-            letras = letras.replace("ufat", "u");
-        }
+btnDescodificar.addEventListener("click", () => {
+    const texto = inputTexto.value;
+    if (texto.trim() !== "") {
+        const resultado = desencriptar(texto);
+        actualizarInterfaz(resultado);
+        inputTexto.value = "";
     }
-    ocultarSegundaPantalla();
-    ocultarElementos();
-    cuadroCodificador.value = "";
-    document.getElementById("mensaje").textContent = letras;
 });
 
-botonCopiar.addEventListener("click", function() {
-    copyText();
+btnCopiar.addEventListener("click", async () => {
+    try {
+        await navigator.clipboard.writeText(outputTexto.value);
+        mostrarToast();
+    } catch (err) {
+        console.error("Error al copiar al portapapeles: ", err);
+    }
 });
